@@ -17,7 +17,6 @@ const Slides = ({ data, onComplete }) => {
       );
     }
   };
-  // console.log(data)
   const renderSlides = ({ item, index }) => {
     return (
       <View style={[styles.slideStyle, { backgroundColor: item.color }]}>
