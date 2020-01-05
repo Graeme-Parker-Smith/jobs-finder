@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
-import { Facebook } from "expo";
+// import { Facebook } from "expo";
+import * as Facebook from "expo-facebook";
 
 import { FACEBOOK_LOGIN_SUCCESS, FACEBOOK_LOGIN_FAIL } from "./types";
 
@@ -15,6 +16,7 @@ export const facebookLogin = () => async dispatch => {
 };
 
 const doFacebookLogin = async dispatch => {
+  await Facebook.initializeAsync("468417574066574");
   let { type, token } = await Facebook.logInWithReadPermissionsAsync(
     "468417574066574",
     {
