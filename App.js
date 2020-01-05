@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Provider } from "react-redux";
 
+import store from "./store";
 import AuthScreen from "./screens/AuthScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import MapScreen from "./screens/MapScreen";
@@ -27,5 +28,9 @@ const MainNavigator = createBottomTabNavigator({
 const App = createAppContainer(MainNavigator);
 
 export default () => {
-  return <App />;
+  return (
+    <Provider store={store}>
+        <App />
+    </Provider>
+  );
 };
