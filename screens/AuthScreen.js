@@ -3,19 +3,29 @@ import { View, Text, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-const AuthScreen = ({ facebookLogin }) => {
+const AuthScreen = (props) => {
   useEffect(() => {
-    facebookLogin();
-    AsyncStorage.removeItem("fb_token");
+    props.facebookLogin();
+    onAuthComplete(props);
   }, []);
+  useEffect(() => {
+    onAuthComplete(props);
+  }, [props.token]);
+
+  const onAuthComplete = props => {
+    if (props.token) {
+      props.navigation.navigate("map");
+    }
+  };
+
   return (
-    <View>
-      <Text>AuthScreen</Text>
-      <Text>AuthScreen</Text>
-      <Text>AuthScreen</Text>
-      <Text>AuthScreen</Text>
-    </View>
+    <View />
   );
 };
 
-export default connect(null, actions)(AuthScreen);
+function mapStateToProps({ auth }) {
+  console.log(auth);
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, actions)(AuthScreen);
