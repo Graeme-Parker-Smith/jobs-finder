@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { Button } from "react-native-elements";
 import MapView from "react-native-maps";
+import { connect } from "react-redux";
 
-const MapScreen = () => {
+import * as actions from "../actions";
+
+const MapScreen = props => {
   const [region, setRegion] = useState({
     longitude: -122,
     latitude: 37,
@@ -15,6 +19,10 @@ const MapScreen = () => {
     setRegion(region);
   };
 
+  const onButtonPress = () => {
+    props.fetchJobs(region);
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -22,6 +30,15 @@ const MapScreen = () => {
         region={region}
         style={styles.mapStyle}
       />
+      <View style={styles.buttonContainer}>
+        <Button
+          large
+          title="Search This Area"
+          icon={{ name: "search" }}
+          buttonStyle={{ backgroundColor: "#009688" }}
+          onPress={onButtonPress}
+        />
+      </View>
     </View>
   );
 };
@@ -36,7 +53,13 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0
   }
 });
 
-export default MapScreen;
+export default connect(null, actions)(MapScreen);
