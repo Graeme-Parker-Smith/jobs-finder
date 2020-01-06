@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-elements";
+import { connect } from "react-redux";
 
 const ReviewScreen = () => {
   return (
@@ -26,5 +27,8 @@ ReviewScreen.navigationOptions = ({ navigation }) => ({
     />
   )
 });
+function mapStateToProps(state) {
+  return { likedJobs: state.likedJobs };
+}
 
-export default ReviewScreen;
+export default connect(mapStateToProps)(ReviewScreen);
