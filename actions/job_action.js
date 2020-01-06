@@ -1,6 +1,10 @@
-import JOB_DATA from './IndeedJobData.json';
+import JOB_DATA from "./IndeedJobData.json";
+import { FETCH_JOBS } from "./types";
+import axios from "axios";
 
-export const fetchJobs = (region, callback) => async (dispatch) => {
+const JOBS_ROOT_URL = "https://jobs.github.com/positions.json?"
+
+export const fetchJobs = (region, callback) => async dispatch => {
   try {
     //let zip = await reverseGeoCode(region);
     //const url = buildJobsUrl(zip);
