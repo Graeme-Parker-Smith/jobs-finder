@@ -1,14 +1,26 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { Card, Button } from "react-native-elements";
 import { connect } from "react-redux";
+import Swipe from "../components/Swipe";
 
-const DeckScreen = () => {
+const DeckScreen = props => {
+  const renderCard = job => {
+    return (
+      <Card title={job.title}>
+        <Text></Text>
+        <Button />
+      </Card>
+    );
+  };
+
   return (
     <View>
-      <Text>DeckScreen</Text>
-      <Text>DeckScreen</Text>
-      <Text>DeckScreen</Text>
-      <Text>DeckScreen</Text>
+      <Swipe
+        data={props.jobs}
+        renderCard={renderCard}
+        renderNoMoreCards={() => {}}
+      />
     </View>
   );
 };
