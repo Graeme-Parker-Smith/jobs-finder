@@ -20,7 +20,9 @@ const MapScreen = props => {
   };
 
   const onButtonPress = () => {
-    props.fetchJobs(region);
+    props.fetchJobs(region, () => {
+      props.navigation.navigate("deck");
+    });
   };
 
   return (
