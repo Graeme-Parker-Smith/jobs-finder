@@ -1,17 +1,40 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Button } from "react-native-elements";
+import { View, Text, ScrollView } from "react-native";
+import { Button, Card } from "react-native-elements";
 import { connect } from "react-redux";
 
 const ReviewScreen = () => {
+  const renderLikedJobs = () => {
+    return props.likedJobs.map(job => {
+      return (
+        <Card>
+          <View style={{ height: 200 }}>
+            <View style={styles.detailWrapper}>
+              <Text style={styles.italics}>{job.company}</Text>
+              <Text style={styles.italics}>{job.created_at}</Text>
+            </View>
+          </View>
+        </Card>
+      );
+    });
+  };
+
   return (
     <View>
-      <Text>ReviewScreen</Text>
-      <Text>ReviewScreen</Text>
-      <Text>ReviewScreen</Text>
-      <Text>ReviewScreen</Text>
+      <ScrollView>{renderLikedJobs()}</ScrollView>
     </View>
   );
+};
+
+const styles = {
+  detailWrapper: {
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  italics: {
+    fontStyle: "italic"
+  }
 };
 
 ReviewScreen.navigationOptions = ({ navigation }) => ({
