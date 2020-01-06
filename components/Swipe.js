@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  Animated,
-  PanResponder,
-  Dimensions,
-} from "react-native";
+import { Animated, PanResponder, Dimensions, Platform } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
@@ -57,7 +53,7 @@ const Swipe = ({
 
     Animated.timing(pos2, {
       toValue: { x: 0, y: -10 },
-      duration: 300
+      duration: 100
     }).start(() => {
       pos.setValue({ x: 0, y: 0 });
       pos2.setValue({ x: 0, y: 0 });
@@ -118,7 +114,7 @@ const Swipe = ({
   };
 
   return (
-    <Animated.View style={pos2.getLayout()}>{renderCards()}</Animated.View>
+    <Animated.View style={pos2.getLayout()}>{Platform.OS === "ios" ? renderCards() : renderCards().reverse()}</Animated.View>
   );
 };
 

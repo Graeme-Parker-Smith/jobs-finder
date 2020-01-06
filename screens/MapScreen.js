@@ -15,7 +15,7 @@ const MapScreen = props => {
   });
 
   const onRegionChangeComplete = region => {
-    console.log(region);
+    // console.log(region);
     setRegion(region);
   };
 
