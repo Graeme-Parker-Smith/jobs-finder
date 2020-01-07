@@ -77,10 +77,9 @@ const Swipe = ({
   };
 
   const renderCards = () => {
-    if (!data || data.results.length === 0 || deckIndex >= data.length) {
+    if (!data || data.results || deckIndex >= data.length) {
       return renderNoMoreCards();
     }
-    console.log(data);
     function makeDeck() {
       return data.map((item, cardIndex) => {
         if (cardIndex < deckIndex) {
