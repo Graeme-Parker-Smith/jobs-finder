@@ -15,29 +15,27 @@ const Swipe = ({
   const [pos, setPos] = useState(new Animated.ValueXY());
   const [pos2, setPos2] = useState(new Animated.ValueXY());
   const [deckIndex, setDeckIndex] = useState(0);
-  const panResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderMove: (event, gesture) => {
-          pos.setValue({ x: gesture.dx, y: gesture.dy });
-        },
-        onPanResponderRelease: (event, gesture) => {
-          if (gesture.dx > SWIPE_THRESHOLD) {
-            forceSwipe("right");
-          } else if (gesture.dx < -SWIPE_THRESHOLD) {
-            forceSwipe("left");
-          } else {
-            resetPosition();
-          }
-        }
-      }),
-    []
-  );
+  console.log("swipe render deck Index...", deckIndex);
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gesture) => {
+      pos.setValue({ x: gesture.dx, y: gesture.dy });
+    },
+    onPanResponderRelease: (event, gesture) => {
+      if (gesture.dx > SWIPE_THRESHOLD) {
+        forceSwipe("right");
+      } else if (gesture.dx < -SWIPE_THRESHOLD) {
+        forceSwipe("left");
+      } else {
+        resetPosition();
+      }
+    }
+  });
 
   useEffect(() => {
+    console.log("set to 0");
     setDeckIndex(0);
-  }, [data, renderCard, onSwipeRight, onSwipeLeft, renderNoMoreCards]);
+  }, []);
 
   const forceSwipe = direction => {
     const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
@@ -57,7 +55,11 @@ const Swipe = ({
     }).start(() => {
       pos.setValue({ x: 0, y: 0 });
       pos2.setValue({ x: 0, y: 0 });
-      setDeckIndex(prevDeckIndex => prevDeckIndex + 1);
+      setDeckIndex(prevDeckIndex => {
+        console.log("prev is", prevDeckIndex);
+        return prevDeckIndex + 1;
+      });
+      console.log("deck index after setter", deckIndex);
     });
   };
 
@@ -114,7 +116,9 @@ const Swipe = ({
   };
 
   return (
-    <Animated.View style={pos2.getLayout()}>{Platform.OS === "ios" ? renderCards() : renderCards().reverse()}</Animated.View>
+    <Animated.View style={pos2.getLayout()}>
+      {Platform.OS === "ios" ? renderCards() : renderCards().reverse()}
+    </Animated.View>
   );
 };
 

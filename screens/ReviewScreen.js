@@ -3,11 +3,12 @@ import { View, Text, ScrollView } from "react-native";
 import { Button, Card } from "react-native-elements";
 import { connect } from "react-redux";
 
-const ReviewScreen = () => {
+const ReviewScreen = props => {
+  console.log(props.likedJobs.length);
   const renderLikedJobs = () => {
     return props.likedJobs.map(job => {
       return (
-        <Card>
+        <Card key={job.id}>
           <View style={{ height: 200 }}>
             <View style={styles.detailWrapper}>
               <Text style={styles.italics}>{job.company}</Text>
