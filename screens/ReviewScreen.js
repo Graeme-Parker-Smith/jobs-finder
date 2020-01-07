@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Button, Card } from "react-native-elements";
+import { View, Text, ScrollView, Linking } from "react-native";
+import { Button, Card, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 
 const ReviewScreen = props => {
@@ -8,12 +8,17 @@ const ReviewScreen = props => {
   const renderLikedJobs = () => {
     return props.likedJobs.map(job => {
       return (
-        <Card key={job.id}>
+        <Card title={job.title} key={job.id}>
           <View style={{ height: 200 }}>
             <View style={styles.detailWrapper}>
               <Text style={styles.italics}>{job.company}</Text>
               <Text style={styles.italics}>{job.created_at}</Text>
             </View>
+            <Button
+              title="Appply Now!"
+              buttonStyle={{ backgroundColor: "#03A9F4" }}
+              onPress={() => Linking.openURL(job.url)}
+            />
           </View>
         </Card>
       );
@@ -26,6 +31,10 @@ const ReviewScreen = props => {
     </View>
   );
 };
+
+ReviewScreen.navigationOptions = ({ navigation }) => ({
+  
+});
 
 const styles = {
   detailWrapper: {
@@ -40,6 +49,9 @@ const styles = {
 
 ReviewScreen.navigationOptions = ({ navigation }) => ({
   title: "Review Jobs",
+  tabBarIcon: ({ tintColor }) => {
+    return <Icon name="description" size={30} color={tintColor} />;
+  },
   headerRight: (
     <Button
       title="Settings"

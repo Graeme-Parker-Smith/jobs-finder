@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { Button } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import MapView from "react-native-maps";
 import { connect } from "react-redux";
 
@@ -44,6 +44,13 @@ const MapScreen = props => {
     </View>
   );
 };
+
+MapScreen.navigationOptions = ({ navigation }) => ({
+  title: "Map",
+  tabBarIcon: ({ tintColor }) => {
+    return <Icon name="my-location" size={30} color={tintColor} />;
+  }
+});
 
 const styles = StyleSheet.create({
   container: {

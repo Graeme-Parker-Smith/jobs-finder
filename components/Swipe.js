@@ -15,7 +15,6 @@ const Swipe = ({
   const [pos, setPos] = useState(new Animated.ValueXY());
   const [pos2, setPos2] = useState(new Animated.ValueXY());
   const [deckIndex, setDeckIndex] = useState(0);
-  console.log("swipe render deck Index...", deckIndex);
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gesture) => {
@@ -33,7 +32,6 @@ const Swipe = ({
   });
 
   useEffect(() => {
-    console.log("set to 0");
     setDeckIndex(0);
   }, []);
 
@@ -56,10 +54,8 @@ const Swipe = ({
       pos.setValue({ x: 0, y: 0 });
       pos2.setValue({ x: 0, y: 0 });
       setDeckIndex(prevDeckIndex => {
-        console.log("prev is", prevDeckIndex);
         return prevDeckIndex + 1;
       });
-      console.log("deck index after setter", deckIndex);
     });
   };
 
@@ -81,44 +77,49 @@ const Swipe = ({
   };
 
   const renderCards = () => {
-    if (deckIndex >= data.length) {
+    if (!data || data.results.length === 0 || deckIndex >= data.length) {
       return renderNoMoreCards();
     }
+    console.log(data);
+    function makeDeck() {
+      return data.map((item, cardIndex) => {
+        if (cardIndex < deckIndex) {
+          return null;
+        }
 
-    return data.map((item, cardIndex) => {
-      if (cardIndex < deckIndex) {
-        return null;
-      }
-
-      if (cardIndex === deckIndex) {
+        if (cardIndex === deckIndex) {
+          return (
+            <Animated.View
+              key={item.id}
+              style={[getCardStyle(), styles.card(cardIndex)]}
+              {...panResponder.panHandlers}
+            >
+              {renderCard(item)}
+            </Animated.View>
+          );
+        }
         return (
           <Animated.View
             key={item.id}
-            style={[getCardStyle(), styles.card(cardIndex)]}
-            {...panResponder.panHandlers}
+            style={[
+              styles.card(cardIndex),
+              { top: 10 * (cardIndex - deckIndex) }
+            ]}
           >
             {renderCard(item)}
           </Animated.View>
         );
-      }
-      return (
-        <Animated.View
-          key={item.id}
-          style={[
-            styles.card(cardIndex),
-            { top: 10 * (cardIndex - deckIndex) }
-          ]}
-        >
-          {renderCard(item)}
-        </Animated.View>
-      );
-    });
+      });
+    }
+    if (Platform.OS === "ios") {
+      return makeDeck();
+    } else {
+      return makeDeck().reverse();
+    }
   };
 
   return (
-    <Animated.View style={pos2.getLayout()}>
-      {Platform.OS === "ios" ? renderCards() : renderCards().reverse()}
-    </Animated.View>
+    <Animated.View style={pos2.getLayout()}>{renderCards()}</Animated.View>
   );
 };
 

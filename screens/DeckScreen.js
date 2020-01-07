@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
-import { Card, Button } from "react-native-elements";
+import { Card, Button, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import Swipe from "../components/Swipe";
 import * as actions from "../actions";
@@ -22,7 +22,17 @@ const DeckScreen = props => {
   };
 
   const renderNoMoreCards = () => {
-    return <Card title="No more jobs"></Card>;
+    return (
+      <Card title="No more jobs">
+        <Button
+          title="Back To Map"
+          large
+          icon={{ name: "my-location" }}
+          buttonStyle={{ backgroundColor: "#03A9F4" }}
+          onPress={() => props.navigation.navigate("map")}
+        />
+      </Card>
+    );
   };
 
   return (
@@ -36,6 +46,13 @@ const DeckScreen = props => {
     </View>
   );
 };
+
+DeckScreen.navigationOptions = ({ navigation }) => ({
+  title: "Jobs",
+  tabBarIcon: ({ tintColor }) => {
+    return <Icon name="description" size={30} color={tintColor} />;
+  }
+});
 
 const styles = {
   detailWrapper: {
