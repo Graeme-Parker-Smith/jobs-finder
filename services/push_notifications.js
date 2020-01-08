@@ -7,7 +7,7 @@ const PUSH_ENDPOINT = "https://exp.host/--/api/v2/push/send";
 
 export default async () => {
   let previousToken = await AsyncStorage.getItem("pushtoken");
-  console.log(previousToken);
+  // console.log(previousToken);
 
   if (previousToken) {
     await axios.post(PUSH_ENDPOINT, { 

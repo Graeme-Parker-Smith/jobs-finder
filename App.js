@@ -59,18 +59,18 @@ const App = createAppContainer(MainNavigator);
 
 export default () => {
   useEffect(() => {
+    // Notifications.addListener(notification => {
+    //   console.log(notification);
+    //   const {
+    //     data: { text },
+    //     origin
+    //   } = notification;
+      
+    //   if (origin === "received" && text) {
+    //     Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
+    //   }
+    // });
     registerForNotifications();
-    Notifications.addListener(notification => {
-      console.log(notification);
-      const {
-        data: { text },
-        origin
-      } = notification;
-
-      if (origin === "received" && text) {
-        Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
-      }
-    });
   }, []);
   return (
     <Provider store={store}>
