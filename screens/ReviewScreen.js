@@ -32,10 +32,6 @@ const ReviewScreen = props => {
   );
 };
 
-ReviewScreen.navigationOptions = ({ navigation }) => ({
-  
-});
-
 const styles = {
   detailWrapper: {
     marginBottom: 10,
