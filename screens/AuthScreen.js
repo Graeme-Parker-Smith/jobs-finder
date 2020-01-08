@@ -24,7 +24,6 @@ const AuthScreen = (props) => {
 };
 
 function mapStateToProps({ auth }) {
-  console.log(auth);
   return { token: auth.token };
 }
 
