@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Notifications } from "expo";
+import { Alert } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Provider } from "react-redux";
 
+import registerForNotifications from "./services/push_notifications";
 import store from "./store";
 import AuthScreen from "./screens/AuthScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -55,6 +58,20 @@ const MainNavigator = createBottomTabNavigator(
 const App = createAppContainer(MainNavigator);
 
 export default () => {
+  useEffect(() => {
+    registerForNotifications();
+    Notifications.addListener(notification => {
+      console.log(notification);
+      const {
+        data: { text },
+        origin
+      } = notification;
+
+      if (origin === "received" && text) {
+        Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
+      }
+    });
+  }, []);
   return (
     <Provider store={store}>
       <App />
